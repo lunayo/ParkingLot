@@ -14,6 +14,8 @@ public interface CarRepository {
 
     public void removeCarOfSlotID(int slotID);
 
+    public Collection<Car> listOfCars();
+
     public Collection<String> registrationNumbersOfColour(String colour);
 
     public Collection<Integer> slotNumbersOfColour(String colour);

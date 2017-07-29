@@ -27,38 +27,59 @@ public class ParkingLotService {
         ParkingSlot parkingSlot = new ParkingSlot(maxSlot);
 
         parkingSlotRepository.save(parkingSlot);
+
+        System.out.println(String.format("Created a parking lot with %d slots", maxSlot));
     }
 
     public void allocateParkingSlotToCar(String registrationNumber, String colour) {
-        ParkingSlot parkingSlot = parkingSlotRepository.parkingSlot();
+        try {
+            ParkingSlot parkingSlot = parkingSlotRepository.parkingSlot();
 
-        Car aCar = new Car(registrationNumber, colour);
-        aCar.assignSlotID(parkingSlot.nextSlot());
+            Car aCar = new Car(registrationNumber, colour);
+            aCar.assignSlotID(parkingSlot.nextSlot());
 
-        carRepository.saveCar(aCar);
+            carRepository.saveCar(aCar);
+
+            System.out.println(String.format("Allocated slot number: %d", aCar.slotID()));
+        } catch (IllegalArgumentException e) {
+            System.out.println("Sorry, parking lot is full");
+        }
     }
 
     public void deallocateParkingSlot(int slotID) {
-        ParkingSlot parkingSlot = parkingSlotRepository.parkingSlot();
+        try {
+            ParkingSlot parkingSlot = parkingSlotRepository.parkingSlot();
 
-        carRepository.removeCarOfSlotID(slotID);
-        parkingSlot.deallocateSlot(slotID);
+            carRepository.removeCarOfSlotID(slotID);
+            parkingSlot.deallocateSlot(slotID);
+
+            System.out.println(String.format("Slot number %d is free", slotID));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getLocalizedMessage());
+        }
     }
 
     public void parkingStatus() {
-
+        Collection<Car> cars = carRepository.listOfCars();
+        System.out.println("Slot No.\tRegistration No\tColour");
+        for(Car c: cars) {
+            System.out.println(String.format("%d\t%s\t%s",c.slotID(), c.registrationNumber(), c.colour()));
+        }
     }
 
     public void listRegistrationNumberOfCars(String colour) {
         Collection<String> colours = carRepository.registrationNumbersOfColour(colour);
+        System.out.println(colours.toString());
     }
 
     public void listSlotNumberOfCars(String colour) {
         Collection<Integer> slotIDs = carRepository.slotNumbersOfColour(colour);
+        System.out.println(slotIDs.toString());
     }
 
     public void listSlotNumberOfOfCar(String registrationNumber) {
         Optional<Integer> slotID = carRepository.slotNumberOfRegistrationNumber(registrationNumber);
+        System.out.println(slotID.map(s -> s.toString()).orElse("Not found"));
     }
 
 }

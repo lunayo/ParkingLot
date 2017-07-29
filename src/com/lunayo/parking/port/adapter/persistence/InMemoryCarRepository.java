@@ -21,6 +21,11 @@ public class InMemoryCarRepository implements CarRepository {
     }
 
     @Override
+    public Collection<Car> listOfCars() {
+        return this.cars;
+    }
+
+    @Override
     public Collection<String> registrationNumbersOfColour(String colour) {
         return this.cars.stream().filter(c -> c.colour().equals(colour))
                 .map(Car::registrationNumber).collect(Collectors.toList());
