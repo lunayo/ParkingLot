@@ -1,0 +1,8 @@
+#!/bin/bash
+
+mvn clean compile test package
+if [ -z "$1" ]; then
+  java -jar target/parking-1.0-SNAPSHOT.jar 
+else
+  java -jar target/parking-1.0-SNAPSHOT.jar "$1"
+fi
