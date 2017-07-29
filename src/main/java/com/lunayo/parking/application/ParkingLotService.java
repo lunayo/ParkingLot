@@ -7,6 +7,7 @@ import com.lunayo.parking.domain.model.parking.ParkingSlotRepository;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by Lunayo on 28/07/2017.
@@ -69,12 +70,14 @@ public class ParkingLotService {
 
     public void listRegistrationNumberOfCars(String colour) {
         Collection<String> colours = carRepository.registrationNumbersOfColour(colour);
-        System.out.println(colours.toString());
+        System.out.println(String.join(", ", colours));
     }
 
     public void listSlotNumberOfCars(String colour) {
-        Collection<Integer> slotIDs = carRepository.slotNumbersOfColour(colour);
-        System.out.println(slotIDs.toString());
+        Collection<String> slotIDs =
+                carRepository.slotNumbersOfColour(colour).stream()
+                        .map(s -> s.toString()).collect(Collectors.toList());
+        System.out.println(String.join(", ", slotIDs));
     }
 
     public void listSlotNumberOfOfCar(String registrationNumber) {

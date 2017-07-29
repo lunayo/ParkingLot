@@ -61,7 +61,7 @@ public class CommandParserService {
                 if(args.length < 2) {
                     throw new IllegalArgumentException("Missing arguments.");
                 }
-                this.parkingLotService.deallocateParkingSlot(Integer.parseInt(args[0]));
+                this.parkingLotService.deallocateParkingSlot(Integer.parseInt(args[1]));
                 break;
             case STATUS:
                 this.parkingLotService.parkingStatus();
@@ -70,19 +70,19 @@ public class CommandParserService {
                 if(args.length < 2) {
                     throw new IllegalArgumentException("Missing arguments.");
                 }
-                this.parkingLotService.listRegistrationNumberOfCars(args[0]);
+                this.parkingLotService.listRegistrationNumberOfCars(args[1]);
                 break;
             case SLOT_WITH_COLOUR:
                 if(args.length < 2) {
                     throw new IllegalArgumentException("Missing arguments.");
                 }
-                this.parkingLotService.listSlotNumberOfCars(args[0]);
+                this.parkingLotService.listSlotNumberOfCars(args[1]);
                 break;
             case SLOT_WITH_REGISTRATION_NO:
                 if(args.length < 2) {
                     throw new IllegalArgumentException("Missing arguments.");
                 }
-                this.parkingLotService.listSlotNumberOfOfCar(args[0]);
+                this.parkingLotService.listSlotNumberOfOfCar(args[1]);
                 break;
         }
 

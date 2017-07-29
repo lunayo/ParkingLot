@@ -26,7 +26,7 @@ public class ParkingSlot extends Entity {
 
     public int nextSlot() {
         if(slotHeap.peek() > maxSlot) {
-            throw new IllegalArgumentException("Parking Slot is Full.");
+            throw new IndexOutOfBoundsException("Parking Slot is Full.");
         }
         int currSlot = slotHeap.poll();
         if(slotHeap.isEmpty()) {
@@ -38,10 +38,12 @@ public class ParkingSlot extends Entity {
 
     public int deallocateSlot(int slot) {
         if(slot > maxSlot) {
-            throw new IllegalArgumentException("Slot Number Exceed Maximum Slot Number.");
+            throw new IndexOutOfBoundsException("Slot Number Exceed Maximum Slot Number.");
         }
+        // Find max of the current slot, can be improved with another max heap
+        int max = slotHeap.stream().max(Integer::compare).orElse(0);
         // Can be improved to O(1) with hash map
-        if(slotHeap.contains(slot)) {
+        if(slotHeap.contains(slot) || slot > max) {
             throw new IllegalArgumentException("Parking Slot was Deallocated Before.");
         }
         slotHeap.add(slot);
@@ -49,7 +51,7 @@ public class ParkingSlot extends Entity {
     }
 
     private void setSlotHeap(Collection<Car> cars, int maxSlot) {
-        this.slotHeap = new PriorityQueue<>(maxSlot, (Integer i1, Integer i2) -> i1 - i2);
+        this.slotHeap = new PriorityQueue<Integer>(maxSlot, (Integer i1, Integer i2) -> i1 - i2);
         if(cars.size() > maxSlot) {
             throw new IllegalArgumentException("Amount of cars exceed the parking slot.");
         }
@@ -57,7 +59,7 @@ public class ParkingSlot extends Entity {
             this.slotHeap.add(1);
         } else {
             // Initialize minHeap with current available slot from cars
-            List<Car> temp = new ArrayList<>(cars);
+            List<Car> temp = new ArrayList<Car>(cars);
             // O(nLogn) sorting by slot id, can be improved with space
             Collections.sort(temp, (Car c1, Car c2) -> c1.slotID() - c2.slotID());
             for(int i=1;i<temp.size();++i) {
