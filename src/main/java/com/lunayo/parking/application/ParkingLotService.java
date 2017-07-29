@@ -42,7 +42,7 @@ public class ParkingLotService {
             carRepository.saveCar(aCar);
 
             System.out.println(String.format("Allocated slot number: %d", aCar.slotID()));
-        } catch (IllegalArgumentException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("Sorry, parking lot is full");
         }
     }
@@ -55,7 +55,7 @@ public class ParkingLotService {
             parkingSlot.deallocateSlot(slotID);
 
             System.out.println(String.format("Slot number %d is free", slotID));
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
     }
@@ -80,7 +80,7 @@ public class ParkingLotService {
         System.out.println(String.join(", ", slotIDs));
     }
 
-    public void listSlotNumberOfOfCar(String registrationNumber) {
+    public void slotNumberOfCar(String registrationNumber) {
         Optional<Integer> slotID = carRepository.slotNumberOfRegistrationNumber(registrationNumber);
         System.out.println(slotID.map(s -> s.toString()).orElse("Not found"));
     }

@@ -25,7 +25,7 @@ public class CommandParserService {
         if(command.contains(".txt")) {
             try {
                 List<String> commands =
-                        Files.readAllLines(new File("input.txt").toPath(), Charset.defaultCharset());
+                        Files.readAllLines(new File(command).toPath(), Charset.defaultCharset());
                 this.executeCommand(commands);
             } catch (IOException e) {
                 throw new IllegalArgumentException("File was not found.");
@@ -82,7 +82,7 @@ public class CommandParserService {
                 if(args.length < 2) {
                     throw new IllegalArgumentException("Missing arguments.");
                 }
-                this.parkingLotService.listSlotNumberOfOfCar(args[1]);
+                this.parkingLotService.slotNumberOfCar(args[1]);
                 break;
         }
 

@@ -14,10 +14,10 @@ public class ParkingSlotTest {
     @Test
     public void nextSlot() throws Exception {
         ParkingSlot parkingSlot = new ParkingSlot(10);
-        assertEquals(parkingSlot.nextSlot(), 1);
+        assertEquals(1, parkingSlot.nextSlot());
         parkingSlot.nextSlot();
         parkingSlot.nextSlot();
-        assertEquals(parkingSlot.nextSlot(), 4);
+        assertEquals(4, parkingSlot.nextSlot());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -34,13 +34,13 @@ public class ParkingSlotTest {
         for(int i=0;i<3;++i) {
             parkingSlot.nextSlot();
         }
-        assertEquals(parkingSlot.nextSlot(), 4);
+        assertEquals(4, parkingSlot.nextSlot());
         parkingSlot.deallocateSlot(2);
-        assertEquals(parkingSlot.nextSlot(), 2);
+        assertEquals(2, parkingSlot.nextSlot());
         parkingSlot.deallocateSlot(4);
         parkingSlot.deallocateSlot(1);
-        assertEquals(parkingSlot.nextSlot(), 1);
-        assertEquals(parkingSlot.nextSlot(), 4);
+        assertEquals(1, parkingSlot.nextSlot());
+        assertEquals(4, parkingSlot.nextSlot());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
